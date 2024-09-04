@@ -5,21 +5,20 @@ def finalizar(alunos):
     melhor_aluno= 0
     melhor_nota= 0
 
-    #RESUMO ALUNOS
     layout = [  [sg.Text('Lista de alunos')],
                 [sg.Listbox(values=[f"Nome: {aluno['nome']}, Média: {aluno['media']}, Aproveitamento: {aluno['aproveitamento']}, Situação: {aluno['situação']}" for aluno in alunos], size=(60, 10), key='-ALUNOS-')],
                 [sg.Button('Voltar'), sg.Button('Melhor Aluno')]    
 
     ]
                 
-    # Create the Window
+
     window = sg.Window('Alunos', layout)
 
-    # Event Loop to process "events" and get the "values" of the inputs
+   
     while True:
         event, values = window.read()
 
-        # if user closes window or clicks cancel
+
         if event == sg.WIN_CLOSED or event == 'Voltar':
             break
 
@@ -33,19 +32,12 @@ def finalizar(alunos):
                 sg.popup(f"Melhor aluno: {melhor_aluno['nome']}, media:{melhor_aluno['media']}, aproveitamento {melhor_aluno['aproveitamento']}, situação: {melhor_aluno['situação']}")
                 
                 
-                
-
-        
-
     window.close()
 
 def nota():
     alunos= []
     
-
     
-
-    # All the stuff inside your window.
     layout = [  [sg.Text("Nome do aluno:")],
                 [sg.InputText(key= 'nome')],
                 [sg.Text("Primeria nota:")],
@@ -60,14 +52,14 @@ def nota():
                 ]
 
                 
-    # Create the Window
+    
     window = sg.Window('Hello Example', layout)
 
-    # Event Loop to process "events" and get the "values" of the inputs
+    
     while True:
         event, values = window.read()
 
-        # if user closes window or clicks cancel
+        
         if event == sg.WIN_CLOSED or event == 'Cancelar':
             break
 
@@ -81,7 +73,7 @@ def nota():
 
 
 
-    #VALIDANDO OS INPUTS
+    
         if event == 'calcular':
             nome = values['nome']
             nota1= values['nota1']
@@ -94,6 +86,7 @@ def nota():
             
             elif len(nome) <3:
                 sg.popup('ERRO!, o nome tem menos de 3 caracteres.')
+
             else:
                 if nota1.isdigit() and nota2.isdigit():
                     nota1= float(nota1)
@@ -126,9 +119,6 @@ def nota():
                             situação= 'Reprovado'
 
 
-                        
-
-
                         window['media'].update(f'{media}')
                         window['aproveitamento'].update(f'{aproveitamento}')
                         window['situação'].update(f'{situação}')
@@ -143,7 +133,7 @@ def nota():
 
                     
                 else:
-                    sg.popup('ERRO!, as notas devem ser numeros.')
+                    sg.popup('ERRO!, as notas devem ser numeros. por favor')
 
             
                 sg.popup(f'A media do aluno {nome} é: {media}. e o aproveitamento é: {aproveitamento}. situação {situação}')
