@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 import os
 
-
+sg.theme('Dark')
 
 # -------------------------------------------------------- TELA NOTA ------------------------------------------------------
 
@@ -19,13 +19,13 @@ def nota():
                 [sg.Text('media: ', size= (30, 1)), sg.Text('',key= 'media')],
                 [sg.Text('aproveitamento: ', size= (30, 1)), sg.Text('', key= 'aproveitamento')],
                 [sg.Text('situação: ', size=(30,1)), sg.Text('',key='situação')],
-                [sg.Button('calcular'), sg.Button('Cancelar'), sg.Button('finalizar')] 
+                [sg.Button('calcular'), sg.Button('Cancelar', button_color=('#780303')), sg.Button('finalizar', button_color=('#0B0383'))] 
                 
                 ]
 
                 
     
-    window = sg.Window('Hello Example', layout)
+    window = sg.Window('Hello Example', layout, alpha_channel=0.9)
 
     
     while True:
@@ -175,12 +175,12 @@ def cadastro():
                 [sg.Text("Senha")],
                 [sg.InputText(password_char='*', key='SENHA')],
                 [sg.Text("Confirmar senha")],
-                [sg.InputText(password_char='*', key='CONFIRMAR SENHA')],
-                [sg.Button('Entrar')]
+                [sg.InputText(password_char='*', key='CONFIRMAR SENHA')]
+                
                 ]
 
     
-    window = sg.Window('Registrar', layout)
+    window = sg.Window('Cadastro', layout)
 
     
     while True:
@@ -240,8 +240,7 @@ def cadastro():
 
 # ---------------------------------- TELA DE LOGIN ------------------------------------
 def login():
-    
-    layout = [  [sg.Button('Registrar')],
+    layout = [  [sg.Button('Registrar', button_color=('#0B0383'))],
                 [sg.Text("Usuario")],
                 [sg.InputText(key='USUARIO')],
                 [sg.Text('Senha')],
@@ -251,6 +250,7 @@ def login():
 
 
     window = sg.Window('Login', layout)
+  
 
     while True:
         event, values = window.read()
@@ -263,7 +263,11 @@ def login():
             window.close()
             cadastro()
 
-
+        if values['USUARIO'] == "" or values['SENHA'] == "":
+            sg.popup('ERRO!, insira os campos obrigatorios.')
+            continue
+        
+    
         if event == 'Entrar':
             if os.path.exists('dados_cadastro.txt'):
                 with open('dados_cadastro.txt', 'r') as file:
@@ -274,9 +278,15 @@ def login():
                             window.close()
                             nota()
                             break
-                           
-            else:
-                sg.popup('O arquivo não existe')
+                        
+                    else:
+                        sg.popup('Usuario não encontrado. Tente novamente!')
+
+       
+
+                    
+                
+                        
 
     window.close()
 login()
