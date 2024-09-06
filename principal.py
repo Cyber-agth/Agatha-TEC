@@ -194,22 +194,22 @@ def cadastro():
         if event == 'voltar':            
             window.close()
             login()
+            break
             
         if event == 'Registrar':
-
-            nome= values['NOMEUSUARIO']
-            senha= values['SENHA']
+            nome = values['NOMEUSUARIO']
+            senha = values['SENHA']
 
 
             if values['NOMEUSUARIO'] == "" or values['EMAIL'] == "" or values['SENHA'] == "" or values['CONFIRMAR SENHA'] == "":
                 sg.popup('ERRO!, insira os campos obrigatorio.')
                 continue
 
-            if values['NOMEUSUARIO'].isdigit() or values['EMAIL'].isdigit() :
+            if nome.isdigit() or values['EMAIL'].isdigit() :
                 sg.popup('ERRO!, o Email e o nome do usuario devem ser texto.')
                 continue
             
-            if len(values['NOMEUSUARIO']) <3 or len(values['EMAIL']) <3:
+            if len(nome) <3 or len(values['EMAIL']) <3:
                 sg.popup('ERRO!, o Email e o nome do usuario devem ter mais de 3 caracteres.')
                 continue 
 
@@ -217,17 +217,17 @@ def cadastro():
                 sg.popup('ERRO!, o Email deve ter pelo menos um "@" ou "."')
                 continue
 
-            if values['SENHA'] != values['CONFIRMAR SENHA']:
+            if senha != values['CONFIRMAR SENHA']:
                 sg.popup('ERRO!, as senhas nao concidem.')  
                 continue 
 
-            if len(values['SENHA']) < 5:
+            if len(senha) < 5:
                 sg.popup('ERRO!, a senha deve ter pelo menos 5 caracteres.')
                 continue  
 
 
             with open ('dados_cadastro.txt', 'a') as file:
-                file.write(f"{nome}, {senha}\n")
+                file.write(f"{nome},{senha}\n")
             
             sg.popup('Cadastro realizado com sucesso!')
             window.close()
@@ -240,7 +240,6 @@ def cadastro():
 
 # ---------------------------------- TELA DE LOGIN ------------------------------------
 def login():
-
     
     layout = [  [sg.Button('Registrar')],
                 [sg.Text("Usuario")],
@@ -253,7 +252,6 @@ def login():
 
     window = sg.Window('Login', layout)
 
-
     while True:
         event, values = window.read()
 
@@ -261,7 +259,6 @@ def login():
             window.close()
             break
 
-        
         if event == 'Registrar':
             window.close()
             cadastro()
