@@ -1,43 +1,15 @@
 import PySimpleGUI as sg
+import os
 
-def finalizar(alunos):
-    melhor_aluno= 0
-    melhor_nota= 0
 
-    #RESUMO ALUNOS
-    layout = [  [sg.Text('Lista de alunos')],
-                [sg.Listbox(values=[f"Nome: {aluno['nome']}, Média: {aluno['media']}, Aproveitamento: {aluno['aproveitamento']}, Situação: {aluno['situação']}" for aluno in alunos], size=(60, 10), key='-ALUNOS-')],
-                [sg.Button('sair'), sg.Button('Melhor Aluno')]    
 
-    ]
-                
-    # Create the Window
-    window = sg.Window('Alunos', layout)
-
-    # Event Loop to process "events" and get the "values" of the inputs
-    while True:
-        event, values = window.read()
-
-        # if user closes window or clicks cancel
-        if event == sg.WIN_CLOSED or event == 'sair':
-            break
-
-        if event == 'Melhor Aluno':
-            for aluno in alunos:
-                if aluno['media'] > melhor_nota:
-                    melhor_nota = aluno['media']
-                    melhor_aluno = aluno
-                    
-            if melhor_aluno:
-                sg.popup(f"Melhor aluno: {melhor_aluno['nome']}, media:{melhor_aluno['media']}, aproveitamento {melhor_aluno['aproveitamento']}, situação: {melhor_aluno['situação']}")
-                
-                
-    window.close()
+# -------------------------------------------------------- TELA NOTA ------------------------------------------------------
 
 def nota():
+
     alunos= []
     
-    # All the stuff inside your window.
+   
     layout = [  [sg.Text("Nome do aluno:")],
                 [sg.InputText(key= 'nome')],
                 [sg.Text("Primeria nota:")],
@@ -52,14 +24,14 @@ def nota():
                 ]
 
                 
-    # Create the Window
+    
     window = sg.Window('Hello Example', layout)
 
-    # Event Loop to process "events" and get the "values" of the inputs
+    
     while True:
         event, values = window.read()
 
-        # if user closes window or clicks cancel
+        
         if event == sg.WIN_CLOSED or event == 'Cancelar':
             break
 
@@ -128,9 +100,6 @@ def nota():
                             situação= 'Reprovado'
 
 
-                        
-
-
                         window['media'].update(f'{media}')
                         window['aproveitamento'].update(f'{aproveitamento}')
                         window['situação'].update(f'{situação}')
@@ -153,79 +122,164 @@ def nota():
 
     window.close()
 
-def cadastro():
 
-    # todas as coisas dentro da janela.
-    layout = [  [sg.Button('Registrar'), sg.Button('voltar')],
-                [sg.Text("Nome usuario")],
-                [sg.InputText(key='NOME USUARIO')],
-                [sg.Text("Email")],
-                [sg.InputText(key= 'EMAIL')],
-                [sg.Text("Senha")],
-                [sg.Input(password_char='*', key='SENHA')],
-                [sg.Text("Confirmar senha")],
-                [sg.Input(password_char='*', key='CONFIRMAR SENHA')],
-                [sg.Button('Entrar')]
-                ]
+# ------------------------------------------- POPUP DA LISTA DE ALUNOS ------------------------------------------------
 
-    # criando a janela
-    window = sg.Window('Registrar', layout)
+def finalizar(alunos):
+    melhor_aluno= 0
+    melhor_nota= 0
 
-    # repetição para processar eventos e pegar os valores inseridos nos inputs.
+    layout = [  [sg.Text('Lista de alunos')],
+                [sg.Listbox(values=[f"Nome: {aluno['nome']}, Média: {aluno['media']}, Aproveitamento: {aluno['aproveitamento']}, Situação: {aluno['situação']}" for aluno in alunos], size=(60, 10), key='-ALUNOS-')],
+                [sg.Button('sair'), sg.Button('Melhor Aluno')]    
+
+    ]
+                
+    
+    window = sg.Window('Alunos', layout)
+
+    
     while True:
         event, values = window.read()
 
-        # condicional caso o usuario clique no botão 'cancelar' ou clicar no 'X'.
-        if event == sg.WIN_CLOSED or event == 'voltar':
+       
+        if event == sg.WIN_CLOSED or event == 'sair':
+            window.close()
+            nota()
+            break
+        
+
+        if event == 'Melhor Aluno':
+            for aluno in alunos:
+                if aluno['media'] > melhor_nota:
+                    melhor_nota = aluno['media']
+                    melhor_aluno = aluno
+                    
+            if melhor_aluno:
+                sg.popup(f"Melhor aluno: {melhor_aluno['nome']}, media:{melhor_aluno['media']}, aproveitamento {melhor_aluno['aproveitamento']}, situação: {melhor_aluno['situação']}")
+                
+                
+    window.close()
+
+
+# ----------------------------------- TELA DE REGISTRO ------------------------------------
+
+
+def cadastro():
+
+    layout = [  [sg.Button('Registrar'), sg.Button('voltar')],
+                [sg.Text("Nome usuario")],
+                [sg.InputText(key='NOMEUSUARIO')],
+                [sg.Text("Email")],
+                [sg.InputText(key= 'EMAIL')],
+                [sg.Text("Senha")],
+                [sg.InputText(password_char='*', key='SENHA')],
+                [sg.Text("Confirmar senha")],
+                [sg.InputText(password_char='*', key='CONFIRMAR SENHA')],
+                [sg.Button('Entrar')]
+                ]
+
+    
+    window = sg.Window('Registrar', layout)
+
+    
+    while True:
+        event, values = window.read()
+
+        
+        if event == sg.WIN_CLOSED:
             window.close()
             break
 
-        if event == 'Entrar':
-            if values['NOME USUARIO'] == "" or values['EMAIL'] == "" or values['SENHA'] == "" or values['CONFIRMAR SENHA'] == "":
+        if event == 'voltar':            
+            window.close()
+            login()
+            
+        if event == 'Registrar':
+
+            nome= values['NOMEUSUARIO']
+            senha= values['SENHA']
+
+
+            if values['NOMEUSUARIO'] == "" or values['EMAIL'] == "" or values['SENHA'] == "" or values['CONFIRMAR SENHA'] == "":
                 sg.popup('ERRO!, insira os campos obrigatorio.')
-            else:
-                window.close()
-                nota()
+                continue
+
+            if values['NOMEUSUARIO'].isdigit() or values['EMAIL'].isdigit() :
+                sg.popup('ERRO!, o Email e o nome do usuario devem ser texto.')
+                continue
+            
+            if len(values['NOMEUSUARIO']) <3 or len(values['EMAIL']) <3:
+                sg.popup('ERRO!, o Email e o nome do usuario devem ter mais de 3 caracteres.')
+                continue 
+
+            if '@' not in values['EMAIL'] and '.' not in values['EMAIL']:
+                sg.popup('ERRO!, o Email deve ter pelo menos um "@" ou "."')
+                continue
+
+            if values['SENHA'] != values['CONFIRMAR SENHA']:
+                sg.popup('ERRO!, as senhas nao concidem.')  
+                continue 
+
+            if len(values['SENHA']) < 5:
+                sg.popup('ERRO!, a senha deve ter pelo menos 5 caracteres.')
+                continue  
+
+
+            with open ('dados_cadastro.txt', 'a') as file:
+                file.write(f"{nome}, {senha}\n")
+            
+            sg.popup('Cadastro realizado com sucesso!')
+            window.close()
+            login()
+
 
     window.close()
 
-# All the stuff inside your window.
-layout = [  [sg.Button('Registrar')],
-            [sg.Text("Usuario")],
-            [sg.InputText(key='USUARIO')],
-            [sg.Text('Senha')],
-            [sg.Input(password_char='*', key= 'SENHA')],
-            [sg.Button('Entrar'), sg.Text('Esqueceu a senha?')]]
-
-# CRIANDO UMA JANELA
-window = sg.Window('Registrar', layout)
-
-# Event Loop to process "events" and get the "values" of the inputs
-while True:
-    event, values = window.read()
-
-    # if user closes window or clicks cancel
-    if event == sg.WIN_CLOSED or event =='Voltar':
-        break
-    if event == 'Registrar':
-        window.close()
-        cadastro()
 
 
-    if event == 'Entrar':
-        if values['USUARIO'] == "" or values['SENHA'] == "":
-            sg.popup('ERRO!, insira os campos obrigatorio.')
+# ---------------------------------- TELA DE LOGIN ------------------------------------
+def login():
 
-        else:
-            if values['USUARIO'].isdigit():
-                sg.popup('ERRO!, o nome deve ser texto.')
-                continue
+    
+    layout = [  [sg.Button('Registrar')],
+                [sg.Text("Usuario")],
+                [sg.InputText(key='USUARIO')],
+                [sg.Text('Senha')],
+                [sg.InputText(password_char='*', key='SENHA')],
+                [sg.Button('Entrar'), sg.Text('Esqueceu a senha?')]
+                ]
 
-            if len(values['USUARIO']) <3:
-                sg.popup('ERRO!, o nome tem menos de 3 caracteres.')
-                continue
 
+    window = sg.Window('Login', layout)
+
+
+    while True:
+        event, values = window.read()
+
+        if event == sg.WIN_CLOSED:
             window.close()
-            nota()
+            break
 
-window.close()
+        
+        if event == 'Registrar':
+            window.close()
+            cadastro()
+
+
+        if event == 'Entrar':
+            if os.path.exists('dados_cadastro.txt'):
+                with open('dados_cadastro.txt', 'r') as file:
+                    for linha in file:
+                        nome, senha = linha.strip().split(',')
+                        if nome == values['USUARIO'] and senha == values['SENHA']:
+                            sg.popup('Login registrado com sucesso')
+                            window.close()
+                            nota()
+                            break
+                           
+            else:
+                sg.popup('O arquivo não existe')
+
+    window.close()
+login()
