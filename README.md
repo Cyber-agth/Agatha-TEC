@@ -8,5 +8,5 @@
 
 Veja abaixo a pré-visualização:
 
-<img src="https://web.whatsapp.com/8644a311-8758-4b5c-ad31-7749969ec089" alt="" style="width:100px;">
+<img src="blob:https://web.whatsapp.com/8644a311-8758-4b5c-ad31-7749969ec089" alt="" style="width:100px;">
  
