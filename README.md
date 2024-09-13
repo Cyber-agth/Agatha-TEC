@@ -8,5 +8,5 @@
 
 Veja abaixo a pré-visualização:
 
-<img src="blob:https://web.whatsapp.com/8644a311-8758-4b5c-ad31-7749969ec089" alt="" style="width:100px;">
+<img src="![notaaluno](https://github.com/user-attachments/assets/4532e098-7772-47ba-adcf-7f7528241455)" alt="" style="width:100px;">
  
