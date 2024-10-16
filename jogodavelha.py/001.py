@@ -13,7 +13,8 @@ matriz_inv= [
 ]
 
 layout= [
-    [sg.Text('Jogo da velha')],
+    [sg.Push(),sg.Text('Jogo da velha'),sg.Push()],
+    [sg.Text(f'É a vez do {jogadorx}', key='troca')],
     [sg.Button('Reiniciar')]
 
 ]
@@ -63,18 +64,6 @@ def verificar_empate():
     return True # Todos os espaços preenchidos, empate
 
 
-def reiniciar_jogo():
-    global matriz_inv, jogadorx
-    matriz_inv= [
-        [1,2,3],
-        [4,5,6],
-        [7,8,9]
-    ]
-    
-    jogadorx = 'X'
-    for a in range(1,10):
-        window[a].update('')
-
 
 while True:
     event, values= window.read()
@@ -83,7 +72,18 @@ while True:
         break
 
     if event == 'Reiniciar':
-        reiniciar_jogo()
+        matriz_inv= [
+        [1,2,3],
+        [4,5,6],
+        [7,8,9]
+    ]
+    
+        jogadorx = 'X'
+        window['troca'].update(f'É a vez do:{jogadorx}')
+        for a in range(1,10):
+            window[a].update('')
+        continue
+            
     
     if int(event) >=1 and int(event) <= 9:
         for i in range(3):
@@ -103,7 +103,7 @@ while True:
                                 [4,5,6],
                                 [7,8,9]
                             ]
-                            reiniciar_jogo()
+                            
                             
                     elif verificar_empate():
                         sg.popup('Emapate!')
@@ -115,13 +115,11 @@ while True:
                                 [4,5,6],
                                 [7,8,9]
                             ]
-                            reiniciar_jogo()
+                            
                     else:       
 
-                        if jogadorx == 'X':
-                            jogadorx = "O"
-                        else: 
-                            jogadorx = 'X'
+                        jogadorx = 'O' if jogadorx == 'X' else 'X'
+                        window['troca'].update(f'É a vez do: {jogadorx}')
                             
 
     
