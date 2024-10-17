@@ -121,8 +121,4 @@ while True:
                         jogadorx = 'O' if jogadorx == 'X' else 'X'
                         window['troca'].update(f'É a vez do: {jogadorx}')
                             
-
-    
-
-
 window.close()
